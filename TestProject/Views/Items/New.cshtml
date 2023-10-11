@@ -1,0 +1,57 @@
+﻿@model Items
+@{
+    ViewData["Title"] = "New";
+}
+
+<div class="container mt-4">
+    @if (TempData["sucessData"] != null)
+    {
+        
+        <h3 style="color:brown">@TempData["sucessData"]</h3>
+    }
+    <h2>Create a New Item</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label asp-for="CategoryId">Categorie:</label>
+            <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.CategoryList">
+            
+
+            </select>
+        </div>
+        <div class="form-group">
+            
+            <input type="file" asp-for="clientFile" onchange="loadFile(event)" />
+            <img id="myImg" height="200" />
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" class="form-control" id="price" name="price" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+        <div class="text-end mt-3">
+            <a class="btn btn-secondary" asp-controller="Items" asp-action="Index">back</a>
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
+    <script>
+        var loadFile = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var myImg = document.getElementById('myImg');
+                myImg.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+    </script>
+
+}
